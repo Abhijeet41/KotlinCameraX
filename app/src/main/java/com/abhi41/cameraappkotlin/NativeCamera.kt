@@ -1,5 +1,6 @@
 package com.abhi41.cameraappkotlin
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,7 +15,12 @@ class NativeCamera : AppCompatActivity() {
 
     private val capturedImg = registerForActivityResult(ActivityResultContracts.TakePicture()){
         binding.imgPreview.setImageURI(null)
-        binding.imgPreview.setImageURI(imageUri)
+        //binding.imgPreview.setImageURI(imageUri)
+
+        val bitmap = contentResolver.openInputStream(imageUri).use { data ->
+            BitmapFactory.decodeStream(data)
+        }
+        binding.imgPreview.setImageBitmap(bitmap)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
